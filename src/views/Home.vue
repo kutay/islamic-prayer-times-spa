@@ -73,32 +73,33 @@
             <PrayerTimeCard prayer_name="Isha" :prayer_time="prayerTimes.isha"/>
         </div>
 
-
     </div>
 </template>
 
 <script>
-    const adhan = require("adhan");
+    // Service
     import prayerService from "../service/prayer";
+    import calculationMethods from "../service/calculationMethods";
+    // Vue Components
+    import PrayerTimeCard from '@/components/PrayerTimeCard.vue'
 
     function availableCalculationMethods() {
-        return Object.keys(adhan.CalculationMethod).map((item) => ({
-            text: item,
-            value: item
+        const methods = calculationMethods.getAvailableMethods();
+        return Object.keys(methods).map((k) => ({
+            text: methods[k].name,
+            value: k
         }));
     }
 
-    import PrayerTimeCard from '@/components/PrayerTimeCard.vue'
 
     export default {
         name: 'Home',
         data: function () {
             return {
-                errors: [],
                 latitude: 48.6312,
                 longitude: 2.4397,
                 availableCalculationMethods: availableCalculationMethods(),
-                calculationMethod: availableCalculationMethods()[0].value,
+                calculationMethod: availableCalculationMethods()[1].value,
                 juristicMethod: "Shafi" // for Shafi/Hanbali/Maliki
             }
         },
@@ -109,7 +110,7 @@
             prayerTimes: function () {
                 return prayerService.getPrayerToday(
                     this.latitude, this.longitude,
-                    adhan.CalculationMethod[this.calculationMethod](),
+                    calculationMethods.getMethod(this.calculationMethod),
                     this.juristicMethod);
             }
         },
