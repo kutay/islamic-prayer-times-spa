@@ -1,7 +1,9 @@
 <template>
     <div class="box">
         <span class="name">{{ prayer_name }}</span>
-        <span class="hour">{{ formattedPrayerTime }}</span>
+        <transition name="fade" mode="out-in">
+            <span :key="formattedPrayerTime" class="hour">{{ formattedPrayerTime }}</span>
+        </transition>
     </div>
 </template>
 
@@ -27,5 +29,17 @@
     SPAN.name {
         display: inline-block;
         width: 150px;
+    }
+
+    .slide-fade-enter-active {
+        transition: all .8s ease;
+    }
+    .slide-fade-leave-active {
+        transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+    }
+    .slide-fade-enter, .slide-fade-leave-to
+        /* .slide-fade-leave-active for <2.1.8 */ {
+        transform: translateX(10px);
+        opacity: 0;
     }
 </style>
