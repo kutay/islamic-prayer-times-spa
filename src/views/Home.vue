@@ -42,6 +42,21 @@
                     </div>
                 </div>
             </div>
+            <div class="field-label is-normal">
+                <label class="label">Juristic method</label>
+            </div>
+            <div class="field-body">
+                <div class="field is-normal">
+                    <div class="control">
+                        <div class="select is-fullwidth">
+                            <select v-model="juristicMethod">
+                                <option value="Shafi">Shafi/Hanbali/Maliki</option>
+                                <option value="Hanafi">Hanafi</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <hr/>
@@ -79,7 +94,8 @@
                 latitude: 48.6312,
                 longitude: 2.4397,
                 availableCalculationMethods: availableCalculationMethods(),
-                calculationMethod: availableCalculationMethods()[0].value
+                calculationMethod: availableCalculationMethods()[0].value,
+                juristicMethod: "Shafi" // for Shafi/Hanbali/Maliki
             }
         },
         components: {
@@ -87,7 +103,10 @@
         },
         computed: {
             prayerTimes: function () {
-                return prayerService.getPrayerToday(this.latitude, this.longitude, adhan.CalculationMethod[this.calculationMethod]());
+                return prayerService.getPrayerToday(
+                    this.latitude, this.longitude,
+                    adhan.CalculationMethod[this.calculationMethod](),
+                    this.juristicMethod);
             }
         },
         methods: {
