@@ -48,6 +48,7 @@
 
         <div id="today" class="box">
             <PrayerTimeCard prayer_name="Fajr" :prayer_time="prayerTimes.fajr"/>
+            <PrayerTimeCard prayer_name="Sunrise" :prayer_time="prayerTimes.sunrise"/>
             <PrayerTimeCard prayer_name="Dhuhr" :prayer_time="prayerTimes.dhuhr"/>
             <PrayerTimeCard prayer_name="Asr" :prayer_time="prayerTimes.asr"/>
             <PrayerTimeCard prayer_name="Maghrib" :prayer_time="prayerTimes.maghrib"/>
@@ -74,6 +75,7 @@
         name: 'Home',
         data: function () {
             return {
+                errors: [],
                 longitude: 2.4397,
                 latitude: 48.6312,
                 availableCalculationMethods: availableCalculationMethods(),
