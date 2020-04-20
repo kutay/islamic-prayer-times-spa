@@ -73,6 +73,7 @@
             <PrayerTimeCard prayer_name="Isha" :prayer_time="prayerTimes.isha"/>
         </div>
 
+
     </div>
 </template>
 
@@ -114,13 +115,26 @@
         },
         methods: {
             getPosition: function () {
-                navigator.geolocation.getCurrentPosition(pos => {
-                    this.latitude = pos.coords.latitude;
-                    this.longitude = pos.coords.longitude;
-                }, err => {
-                    // FIXME display a nice error message
-                    console.log(err);
-                })
+                navigator.geolocation.getCurrentPosition(
+                    pos => {
+                        this.latitude = pos.coords.latitude;
+                        this.longitude = pos.coords.longitude;
+                    },
+                    (err) => {
+                        let errorMessage = "";
+                        if (err.code === 1) {
+                            errorMessage = "Désolé, mais il faut nous autoriser l'accès à la géolocalisation."
+                        } else {
+                            errorMessage = "Désolé, cela n'a pas fonctionné à cause d'une erreur inconnue."
+                        }
+
+                        this.$buefy.notification.open({
+                            duration: 5000,
+                            message: errorMessage,
+                            position: 'is-bottom-right',
+                            type: 'is-danger'
+                        })
+                    })
             }
         }
     }
