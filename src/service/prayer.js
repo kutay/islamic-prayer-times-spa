@@ -1,17 +1,17 @@
 const adhan = require("adhan");
 
-function getPrayer(longitude, latitude, date, params) {
-    const coordinates = new adhan.Coordinates(longitude, latitude);
+function getPrayer(latitude, longitude, date, params) {
+    const coordinates = new adhan.Coordinates(latitude, longitude);
     const prayerTimes = new adhan.PrayerTimes(coordinates, date, params);
 
     return prayerTimes;
 }
 
-function getPrayerToday(longitude, latitude, calculationMethod) {
+function getPrayerToday(latitude, longitude, calculationMethod) {
     const date = new Date();
     const params = calculationMethod;
 
-    const prayerTimes = getPrayer(longitude, latitude, date, params);
+    const prayerTimes = getPrayer(latitude, longitude, date, params);
 
     return prayerTimes;
 }

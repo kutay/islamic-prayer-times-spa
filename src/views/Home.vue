@@ -3,17 +3,17 @@
 
         <div class="field is-horizontal">
             <div class="field-label is-normal">
-                <label class="label">Longitude / Latitude</label>
+                <label class="label">Latitude / Longitude</label>
             </div>
             <div class="field-body">
                 <div class="field">
                     <p class="control is-expanded">
-                        <input v-model="longitude" placeholder="Longitude" class="input">
+                        <input v-model="latitude" placeholder="Latitude" class="input">
                     </p>
                 </div>
                 <div class="field">
                     <p class="control is-expanded">
-                        <input v-model="latitude" placeholder="Latitude" class="input">
+                        <input v-model="longitude" placeholder="Longitude" class="input">
                     </p>
                 </div>
                 <div class="field">
@@ -76,8 +76,8 @@
         data: function () {
             return {
                 errors: [],
-                longitude: 2.4397,
                 latitude: 48.6312,
+                longitude: 2.4397,
                 availableCalculationMethods: availableCalculationMethods(),
                 calculationMethod: availableCalculationMethods()[0].value
             }
@@ -87,7 +87,7 @@
         },
         computed: {
             prayerTimes: function () {
-                return prayerService.getPrayerToday(this.longitude, this.latitude, adhan.CalculationMethod[this.calculationMethod]());
+                return prayerService.getPrayerToday(this.latitude, this.longitude, adhan.CalculationMethod[this.calculationMethod]());
             }
         },
         methods: {
