@@ -18,7 +18,7 @@
         },
         computed: {
             formattedPrayerTime: function () {
-                return moment(this.prayer_time).format("HH[h]mm");
+                return moment(this.prayer_time).format("HH[:]mm");
             }
         }
     }
