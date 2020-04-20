@@ -1,5 +1,5 @@
 <template>
-    <div class="box">
+    <div class="box" v-bind:class="{'active':active}">
         <span class="name">{{ prayer_name }}</span>
         <transition name="fade" mode="out-in">
             <span :key="formattedPrayerTime" class="hour">{{ formattedPrayerTime }}</span>
@@ -14,7 +14,8 @@
         name: 'PrayerTimeCard',
         props: {
             prayer_name: {type: String, required: true},
-            prayer_time: {type: Date, required: true}
+            prayer_time: {type: Date, required: true},
+            active: {type: Boolean}
         },
         computed: {
             formattedPrayerTime: function () {
@@ -26,7 +27,17 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+    .active {
+        /*background-color: #2ECC40;*/
+        background-color: #001f3f;
+        color: beige;
+    }
+
     SPAN.name {
+        display: inline-block;
+        width: 150px;
+    }
+    SPAN.hour {
         display: inline-block;
         width: 150px;
     }

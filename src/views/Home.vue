@@ -64,19 +64,26 @@
 
         <hr/>
 
+        <h3 class="subtitle">{{ currentDay }}</h3>
+
         <div id="today" class="box">
-            <PrayerTimeCard prayer_name="Fajr" :prayer_time="prayerTimes.fajr"/>
+            <PrayerTimeCard prayer_name="Fajr" :prayer_time="prayerTimes.fajr" :active="current_prayer==='fajr'"/>
             <PrayerTimeCard prayer_name="Sunrise" :prayer_time="prayerTimes.sunrise"/>
-            <PrayerTimeCard prayer_name="Dhuhr" :prayer_time="prayerTimes.dhuhr"/>
-            <PrayerTimeCard prayer_name="Asr" :prayer_time="prayerTimes.asr"/>
-            <PrayerTimeCard prayer_name="Maghrib" :prayer_time="prayerTimes.maghrib"/>
-            <PrayerTimeCard prayer_name="Isha" :prayer_time="prayerTimes.isha"/>
+            <PrayerTimeCard prayer_name="Dhuhr" :prayer_time="prayerTimes.dhuhr" :active="current_prayer==='dhuhr'"/>
+            <PrayerTimeCard prayer_name="Asr" :prayer_time="prayerTimes.asr" :active="current_prayer==='asr'"/>
+            <PrayerTimeCard prayer_name="Maghrib" :prayer_time="prayerTimes.maghrib"
+                            :active="current_prayer==='maghrib'"/>
+            <PrayerTimeCard prayer_name="Isha" :prayer_time="prayerTimes.isha" :active="current_prayer==='isha'"/>
         </div>
 
     </div>
 </template>
 
 <script>
+    // Libraries
+    const moment = require("moment");
+    // moment.locale("fr");
+
     // Service
     import prayerService from "../service/prayer";
     import calculationMethods from "../service/calculationMethods";
@@ -112,6 +119,12 @@
                     this.latitude, this.longitude,
                     calculationMethods.getMethod(this.calculationMethod),
                     this.juristicMethod);
+            },
+            currentDay: function () {
+                return moment(new Date()).format("LL");
+            },
+            current_prayer: function () {
+                return this.prayerTimes.currentPrayer();
             }
         },
         methods: {
@@ -145,6 +158,4 @@
     DIV#today {
         background-color: beige;
     }
-
-
 </style>
