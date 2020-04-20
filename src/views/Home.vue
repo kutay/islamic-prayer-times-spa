@@ -29,7 +29,7 @@
                 <label class="label">Calculation method</label>
             </div>
             <div class="field-body">
-                <div class="field is-narrow">
+                <div class="field is-normal">
                     <div class="control">
                         <div class="select is-fullwidth">
                             <select v-model="calculationMethod">
@@ -42,6 +42,9 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="field is-horizontal">
             <div class="field-label is-normal">
                 <label class="label">Juristic method</label>
             </div>
