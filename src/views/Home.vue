@@ -2,6 +2,20 @@
     <div class="container">
 
         <b-tabs v-model="activeTab" position="is-centered" size="is-medium" expanded>
+            <b-tab-item label="Prayer times">
+                <span class="box">
+                    <table class="table is-striped">
+                        <tr>
+                            <td class="has-text-weight-bold">Location : &nbsp;</td>
+                            <td><span v-if="location">{{ location.properties.label }}</span></td>
+                        </tr>
+                        <tr>
+                            <td class="has-text-weight-bold">Method :&nbsp;</td>
+                            <td>{{ calculationMethod }} / {{ juristicMethod }}</td>
+                        </tr>
+                    </table>
+                </span>
+            </b-tab-item>
             <b-tab-item label="Configuration">
                 <span class="box">
 
@@ -15,10 +29,11 @@
                                     <b-autocomplete
                                             :data="results"
                                             placeholder="e.g. Paris"
-                                            field="properties.name"
+                                            field="properties.label"
                                             :loading="isFetching"
                                             @typing="getAsyncData"
-                                            @select="option => location = option">
+                                            @select="option => location = option"
+                                            ref="location-autocomplete">
                                         <template slot-scope="props">
                                             <div class="media">
                                                 <div class="media-content">
@@ -158,6 +173,8 @@
     import prayerService from "../service/prayer";
     import calculationMethods from "../service/calculationMethods";
     import audios from "../service/audios";
+    import geocoding from "../service/geocoding";
+
     // Vue Components
     import PrayerTimeCard from '@/components/PrayerTimeCard.vue'
     import AudioPlayer from '@/components/AudioPlayer.vue'
@@ -177,8 +194,8 @@
             return {
                 activeTab: 0,
 
-                latitude: 48.6312,
-                longitude: 2.4397,
+                latitude: 48.845,
+                longitude: 2.3752,
                 availableCalculationMethods: availableCalculationMethods(),
                 calculationMethod: availableCalculationMethods()[1].value,
                 juristicMethod: "Shafi", // for Shafi/Hanbali/Maliki
@@ -194,6 +211,13 @@
         components: {
             PrayerTimeCard,
             AudioPlayer
+        },
+        mounted: function () {
+            this.getPosition();
+            geocoding.reverseGeocode(this.latitude, this.longitude)
+                .then((feature) => {
+                    this.$refs["location-autocomplete"].setSelected(feature);
+                });
         },
         computed: {
             prayerTimes: function () {
@@ -221,6 +245,11 @@
                     pos => {
                         this.latitude = pos.coords.latitude;
                         this.longitude = pos.coords.longitude;
+
+                        geocoding.reverseGeocode(this.latitude, this.longitude)
+                            .then((feature) => {
+                                this.$refs["location-autocomplete"].setSelected(feature);
+                            })
                     },
                     (err) => {
                         let errorMessage = "";
@@ -246,7 +275,7 @@
                 this.isFetching = true;
                 //
                 this.$http.get(`https://api-adresse.data.gouv.fr/search/?q=${name}&type=municipality&autocomplete=1&limit=10`)
-                    .then(({ data }) => {
+                    .then(({data}) => {
                         this.results = [];
                         data.features.forEach((item) => this.results.push(item))
                     })
