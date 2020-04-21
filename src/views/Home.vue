@@ -16,8 +16,8 @@
                         <input v-model="longitude" placeholder="Longitude" class="input">
                     </p>
                 </div>
-                <div class="field">
-                    <p class="control is-normal">
+                <div class="field is-narrow">
+                    <p class="control is-normal has-text-centered-mobile">
                         <button v-on:click="getPosition" class="button is-info">Get position</button>
                     </p>
                 </div>
