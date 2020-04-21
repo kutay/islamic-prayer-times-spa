@@ -1,9 +1,16 @@
 <template>
-    <div class="box" v-bind:class="{'active':active}">
+    <div class="box" v-bind:class="{'active':is_current_prayer}">
         <span class="name">{{ prayer_name }}</span>
         <transition name="fade" mode="out-in">
-            <span :key="formattedPrayerTime" class="hour">{{ formattedPrayerTime }}</span>
+            <span :key="formatted_prayer_start_time" class="hour">{{ formatted_prayer_start_time }}</span>
         </transition>
+
+        <span v-if="is_next_prayer">
+        <transition name="fade" mode="out-in">
+            <span :key="time_before_prayer_start">{{ time_before_prayer_start }}</span>
+        </transition> minutes before prayer
+        </span>
+
     </div>
 </template>
 
@@ -14,12 +21,28 @@
         name: 'PrayerTimeCard',
         props: {
             prayer_name: {type: String, required: true},
-            prayer_time: {type: Date, required: true},
-            active: {type: Boolean}
+            prayer_start_time: {type: Date, required: true},
+            prayer_end_time: {type: Date, required: true},
+            is_next_prayer: {type: Boolean, required: true},
         },
         computed: {
-            formattedPrayerTime: function () {
-                return moment(this.prayer_time).format("HH[:]mm");
+            formatted_prayer_start_time: function () {
+                return moment(this.prayer_start_time).format("HH[:]mm");
+            },
+            now: function () {
+                return this.$store.state.now.now;
+            },
+            time_before_prayer_start: function () {
+                return moment(this.prayer_start_time).diff(moment(this.now), "minutes");
+            },
+            time_before_prayer_end: function () {
+                if (this.time_before_prayer_start < 0) {
+                    return moment(this.now).diff(moment(this.prayer_end_time), "minutes");
+                }
+                return undefined;
+            },
+            is_current_prayer: function () {
+                return moment(this.now).add(0, "hour").isBetween(moment(this.prayer_start_time), moment(this.prayer_end_time));
             }
         }
     }
@@ -37,6 +60,7 @@
         display: inline-block;
         width: 150px;
     }
+
     SPAN.hour {
         display: inline-block;
         width: 150px;
@@ -45,11 +69,14 @@
     .slide-fade-enter-active {
         transition: all .8s ease;
     }
+
     .slide-fade-leave-active {
         transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
     }
+
     .slide-fade-enter, .slide-fade-leave-to
-        /* .slide-fade-leave-active for <2.1.8 */ {
+        /* .slide-fade-leave-active for <2.1.8 */
+    {
         transform: translateX(10px);
         opacity: 0;
     }

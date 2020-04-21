@@ -67,13 +67,30 @@
         <h3 class="subtitle">{{ currentDay }}</h3>
 
         <div id="today" class="box">
-            <PrayerTimeCard prayer_name="Fajr" :prayer_time="prayerTimes.fajr" :active="current_prayer==='fajr'"/>
-            <PrayerTimeCard prayer_name="Sunrise" :prayer_time="prayerTimes.sunrise"/>
-            <PrayerTimeCard prayer_name="Dhuhr" :prayer_time="prayerTimes.dhuhr" :active="current_prayer==='dhuhr'"/>
-            <PrayerTimeCard prayer_name="Asr" :prayer_time="prayerTimes.asr" :active="current_prayer==='asr'"/>
-            <PrayerTimeCard prayer_name="Maghrib" :prayer_time="prayerTimes.maghrib"
-                            :active="current_prayer==='maghrib'"/>
-            <PrayerTimeCard prayer_name="Isha" :prayer_time="prayerTimes.isha" :active="current_prayer==='isha'"/>
+            <PrayerTimeCard prayer_name="Fajr"
+                            :prayer_start_time="prayerTimes.fajr"
+                            :prayer_end_time="prayerTimes.sunrise"
+                            :is_next_prayer="prayerTimes.nextPrayer()==='fajr'"/>
+            <PrayerTimeCard prayer_name="Sunrise"
+                            :prayer_start_time="prayerTimes.sunrise"
+                            :prayer_end_time="prayerTimes.sunrise"
+                            :is_next_prayer="false"/>
+            <PrayerTimeCard prayer_name="Dhuhr"
+                            :prayer_start_time="prayerTimes.dhuhr"
+                            :prayer_end_time="prayerTimes.asr"
+                            :is_next_prayer="prayerTimes.nextPrayer()==='dhuhr'"/>
+            <PrayerTimeCard prayer_name="Asr"
+                            :prayer_start_time="prayerTimes.asr"
+                            :prayer_end_time="prayerTimes.maghrib"
+                            :is_next_prayer="prayerTimes.nextPrayer()==='asr'"/>
+            <PrayerTimeCard prayer_name="Maghrib"
+                            :prayer_start_time="prayerTimes.maghrib"
+                            :prayer_end_time="prayerTimes.isha"
+                            :is_next_prayer="prayerTimes.nextPrayer()==='maghrib'"/>
+            <PrayerTimeCard prayer_name="Isha"
+                            :prayer_start_time="prayerTimes.isha"
+                            :prayer_end_time="prayerTimes.fajr"
+                            :is_next_prayer="prayerTimes.nextPrayer()==='isha'"/>
         </div>
 
     </div>
@@ -121,10 +138,7 @@
                     this.juristicMethod);
             },
             currentDay: function () {
-                return moment(new Date()).format("LL");
-            },
-            current_prayer: function () {
-                return this.prayerTimes.currentPrayer();
+                return moment(this.$store.state.now.now).format("LL");
             }
         },
         methods: {
