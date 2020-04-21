@@ -14,7 +14,7 @@
             <template slot="end">
                 <b-navbar-item tag="div">
                     <div class="buttons">
-                        <digital-clock :blink="false" :displaySeconds="true"/>
+                        <span class="clock">{{ now_hour }}</span>
                     </div>
                 </b-navbar-item>
             </template>
@@ -27,11 +27,13 @@
 </template>
 
 <script>
-    import DigitalClock from "vue-digital-clock";
+    const moment = require("moment");
 
     export default {
-        components: {
-            DigitalClock
+        computed: {
+            now_hour: function () {
+                return moment(this.$store.state.now.now).format("LTS")
+            }
         }
     }
 </script>
@@ -59,8 +61,6 @@
     }
 
     .clock {
-        /*background-color: #263238;*/
-        /*color: #eceff1;*/
         padding: 0.3rem 0.6rem;
         font-size: 2rem;
         font-family: "Menlo", monospace;
