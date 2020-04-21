@@ -89,7 +89,7 @@
                             :is_next_prayer="prayerTimes.nextPrayer()==='maghrib'"/>
             <PrayerTimeCard prayer_name="Isha"
                             :prayer_start_time="prayerTimes.isha"
-                            :prayer_end_time="prayerTimes.fajr"
+                            :prayer_end_time="prayerTimes.next_fajr"
                             :is_next_prayer="prayerTimes.nextPrayer()==='isha'"/>
         </div>
 

@@ -1,5 +1,5 @@
 <template>
-    <div class="box" v-bind:class="{'active':is_current_prayer}">
+    <div class="box" v-bind:class="{'active':is_current_prayer, 'is_past': is_past_prayer}">
         <span class="name">{{ prayer_name }}</span>
         <transition name="fade" mode="out-in">
             <span :key="formatted_prayer_start_time" class="hour">{{ formatted_prayer_start_time }}</span>
@@ -43,6 +43,9 @@
             },
             is_current_prayer: function () {
                 return moment(this.now).add(0, "hour").isBetween(moment(this.prayer_start_time), moment(this.prayer_end_time));
+            },
+            is_past_prayer: function () {
+                return moment(this.now).isAfter(moment(this.prayer_end_time));
             }
         }
     }
@@ -54,6 +57,10 @@
         /*background-color: #2ECC40;*/
         background-color: #001f3f;
         color: beige;
+    }
+
+    .is_past {
+        color: darkgray;
     }
 
     SPAN.name {
