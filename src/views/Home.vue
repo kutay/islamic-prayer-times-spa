@@ -151,6 +151,8 @@
     // Libraries
     const moment = require("moment");
     // moment.locale("fr");
+    import debounce from 'lodash/debounce'
+
 
     // Service
     import prayerService from "../service/prayer";
@@ -236,7 +238,7 @@
                         })
                     })
             },
-            getAsyncData: function (name) {
+            getAsyncData: debounce(function (name) {
                 if (!name.length) {
                     this.results = [];
                     return;
@@ -255,7 +257,7 @@
                     .finally(() => {
                         this.isFetching = false
                     })
-            }
+            }, 500)
         }
     }
 </script>
