@@ -2,7 +2,7 @@
     <div class="container">
 
         <b-tabs v-model="activeTab" position="is-centered" size="is-medium" expanded>
-            <b-tab-item label="Calculation">
+            <b-tab-item label="Configuration">
                 <span class="box">
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
@@ -69,7 +69,18 @@
 
             <b-tab-item label="Adhan">
                <span class="box">
-
+                   <div class="select">
+                        <select v-model="selectedAudio">
+                            <option v-for="option in availableAudios"
+                                    :key="option.path" :value="option">
+                                {{ option.name }}
+                            </option>
+                        </select>
+                    </div>
+                   <br/><br/>
+                   <div>
+                       <audio-player :file="selectedAudio.path"></audio-player>
+                   </div>
                </span>
             </b-tab-item>
         </b-tabs>
@@ -116,8 +127,10 @@
     // Service
     import prayerService from "../service/prayer";
     import calculationMethods from "../service/calculationMethods";
+    import audios from "../service/audios";
     // Vue Components
     import PrayerTimeCard from '@/components/PrayerTimeCard.vue'
+    import AudioPlayer from '@/components/AudioPlayer.vue'
 
     function availableCalculationMethods() {
         const methods = calculationMethods.getAvailableMethods();
@@ -138,11 +151,15 @@
                 longitude: 2.4397,
                 availableCalculationMethods: availableCalculationMethods(),
                 calculationMethod: availableCalculationMethods()[1].value,
-                juristicMethod: "Shafi" // for Shafi/Hanbali/Maliki
+                juristicMethod: "Shafi", // for Shafi/Hanbali/Maliki
+
+                availableAudios: audios.getAvailableAudios(),
+                selectedAudio: audios.getAvailableAudios()[0]
             }
         },
         components: {
-            PrayerTimeCard
+            PrayerTimeCard,
+            AudioPlayer
         },
         computed: {
             prayerTimes: function () {
