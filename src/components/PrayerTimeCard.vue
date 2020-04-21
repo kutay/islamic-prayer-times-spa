@@ -1,24 +1,22 @@
 <template>
-    <div class="box" v-bind:class="{'active':is_current_prayer, 'is_past': is_past_prayer}">
-        <span class="name">{{ prayer_name }}</span>
+    <nav class="box level is-mobile" v-bind:class="{'active':is_current_prayer, 'is_past': is_past_prayer}">
+        <div class="is-offset-1 level-item has-text-centered">
+            <span class="name">{{ prayer_name }}</span>
+        </div>
+        <div class="level-item has-text-centered">
+            <div>
+                <span v-if="!is_current_prayer">
+                    <transition name="fade" mode="out-in">
+                        <span :key="formatted_prayer_start_time" class="hour">{{ formatted_prayer_start_time }}</span>
+                    </transition>
+                </span>
 
-        <span v-if="!is_current_prayer">
-            <transition name="fade" mode="out-in">
-                <span :key="formatted_prayer_start_time" class="hour">{{ formatted_prayer_start_time }}</span>
-            </transition>
-        </span>
-
-        <span v-if="is_current_prayer">
-            <CountdownTimer :date="prayer_end_time"></CountdownTimer>
-        </span>
-
-        <!--        <span v-if="is_next_prayer">-->
-        <!--        <transition name="fade" mode="out-in">-->
-        <!--            <span :key="time_before_prayer_start">{{ time_before_prayer_start }}</span>-->
-        <!--        </transition> minutes before prayer-->
-        <!--        </span>-->
-
-    </div>
+                <span v-if="is_current_prayer">
+                    <CountdownTimer :date="prayer_end_time"></CountdownTimer>
+                </span>
+            </div>
+        </div>
+    </nav>
 </template>
 
 <script>
