@@ -4,14 +4,22 @@ const uoifMethod = adhan.CalculationMethod.Other();
 uoifMethod.fajrAngle = 12;
 uoifMethod.ishaAngle = 12;
 
+const diyanetMethod = adhan.CalculationMethod.Other();
+diyanetMethod.fajrAngle = 18;
+diyanetMethod.ishaAngle = 17;
+
 const methods = {
     "MuslimWorldLeague": {
         name: "Muslim World League",
         method: adhan.CalculationMethod.MuslimWorldLeague()
     },
     "UOIF": {
-        name: "Union des Organisations Islamiques de France",
+        name: "Les Musulmans de France (ex-UOIF)",
         method: uoifMethod
+    },
+    "Diyanet": {
+        name: "Diyanet İşleri Başkanlığı",
+        method: diyanetMethod
     },
     "UmmAlQura": {
         name: "Umm al-Qura University, Makkah",
