@@ -1,21 +1,31 @@
 <template>
     <div class="box" v-bind:class="{'active':is_current_prayer, 'is_past': is_past_prayer}">
         <span class="name">{{ prayer_name }}</span>
-        <transition name="fade" mode="out-in">
-            <span :key="formatted_prayer_start_time" class="hour">{{ formatted_prayer_start_time }}</span>
-        </transition>
 
-        <span v-if="is_next_prayer">
-        <transition name="fade" mode="out-in">
-            <span :key="time_before_prayer_start">{{ time_before_prayer_start }}</span>
-        </transition> minutes before prayer
+        <span v-if="!is_current_prayer">
+            <transition name="fade" mode="out-in">
+                <span :key="formatted_prayer_start_time" class="hour">{{ formatted_prayer_start_time }}</span>
+            </transition>
         </span>
+
+        <span v-if="is_current_prayer">
+            <CountdownTimer :date="prayer_end_time"></CountdownTimer>
+        </span>
+
+        <!--        <span v-if="is_next_prayer">-->
+        <!--        <transition name="fade" mode="out-in">-->
+        <!--            <span :key="time_before_prayer_start">{{ time_before_prayer_start }}</span>-->
+        <!--        </transition> minutes before prayer-->
+        <!--        </span>-->
 
     </div>
 </template>
 
 <script>
+    // Libraries
     const moment = require("moment");
+    // Vue Components
+    import CountdownTimer from '@/components/CountdownTimer.vue'
 
     export default {
         name: 'PrayerTimeCard',
@@ -24,6 +34,9 @@
             prayer_start_time: {type: Date, required: true},
             prayer_end_time: {type: Date, required: true},
             is_next_prayer: {type: Boolean, required: true},
+        },
+        components: {
+            CountdownTimer
         },
         computed: {
             formatted_prayer_start_time: function () {
@@ -37,7 +50,7 @@
             },
             time_before_prayer_end: function () {
                 if (this.time_before_prayer_start < 0) {
-                    return moment(this.now).diff(moment(this.prayer_end_time), "minutes");
+                    return moment(this.prayer_end_time).diff(moment(this.now), "minutes");
                 }
                 return undefined;
             },
@@ -57,6 +70,7 @@
         /*background-color: #2ECC40;*/
         background-color: #001f3f;
         color: beige;
+        font-size: x-large;
     }
 
     .is_past {
