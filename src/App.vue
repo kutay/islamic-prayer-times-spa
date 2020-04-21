@@ -62,7 +62,7 @@
 
     .clock {
         padding: 0.3rem 0.6rem;
-        font-size: 2rem;
+        font-size: 1.5rem;
         font-family: "Menlo", monospace;
     }
 </style>
