@@ -4,18 +4,19 @@
         <b-tabs v-model="activeTab" position="is-centered" size="is-medium" expanded>
             <b-tab-item label="Prayer times">
                 <span class="box">
-                    <table class="table is-striped">
-                        <tr>
-                            <td class="has-text-weight-bold">Location : &nbsp;</td>
-                            <td><span v-if="location">{{ location.properties.label }}</span></td>
-                        </tr>
-                        <tr>
-                            <td class="has-text-weight-bold">Method :&nbsp;</td>
-                            <td>{{ calculationMethod }} / {{ juristicMethod }}</td>
-                        </tr>
-                    </table>
+                    <nav class="level is-mobile">
+                        <div class="level-item has-text-centered">
+                            <span class="has-text-weight-bold">Location : </span>
+                            <span v-if="location">{{ location.properties.label }}</span>
+                        </div>
+                        <div class="level-item has-text-centered">
+                            <span class="has-text-weight-bold">Method : </span>
+                            <span>{{ calculationMethod }} / {{ juristicMethod }}</span>
+                        </div>
+                    </nav>
                 </span>
             </b-tab-item>
+
             <b-tab-item label="Configuration">
                 <span class="box">
 
