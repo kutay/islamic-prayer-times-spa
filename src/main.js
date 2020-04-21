@@ -13,6 +13,8 @@ import Buefy from 'buefy'
 import 'buefy/dist/buefy.css'
 Vue.use(Buefy);
 
+const axios = require("axios");
+Vue.prototype.$http = axios;
 
 new Vue({
   router,

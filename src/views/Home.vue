@@ -4,6 +4,34 @@
         <b-tabs v-model="activeTab" position="is-centered" size="is-medium" expanded>
             <b-tab-item label="Configuration">
                 <span class="box">
+
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">Location</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control is-expanded">
+                                    <b-autocomplete
+                                            :data="results"
+                                            placeholder="e.g. Paris"
+                                            field="properties.name"
+                                            :loading="isFetching"
+                                            @typing="getAsyncData"
+                                            @select="option => location = option">
+                                        <template slot-scope="props">
+                                            <div class="media">
+                                                <div class="media-content">
+                                                    {{ props.option.properties.name }} ({{ props.option.properties.postcode }})
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </b-autocomplete>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
                             <label class="label">Latitude / Longitude</label>
@@ -154,7 +182,11 @@
                 juristicMethod: "Shafi", // for Shafi/Hanbali/Maliki
 
                 availableAudios: audios.getAvailableAudios(),
-                selectedAudio: audios.getAvailableAudios()[0]
+                selectedAudio: audios.getAvailableAudios()[0],
+
+                results: [],
+                isFetching: false,
+                location: null
             }
         },
         components: {
@@ -170,6 +202,15 @@
             },
             currentDay: function () {
                 return moment(this.$store.state.now.now).format("LL");
+            }
+        },
+        watch: {
+            // eslint-disable-next-line no-unused-vars
+            location: function (newVal, oldVal) {
+                if (newVal) {
+                    this.latitude = newVal.geometry.coordinates[1];
+                    this.longitude = newVal.geometry.coordinates[0];
+                }
             }
         },
         methods: {
@@ -193,6 +234,26 @@
                             position: 'is-bottom-right',
                             type: 'is-danger'
                         })
+                    })
+            },
+            getAsyncData: function (name) {
+                if (!name.length) {
+                    this.results = [];
+                    return;
+                }
+                this.isFetching = true;
+                //
+                this.$http.get(`https://api-adresse.data.gouv.fr/search/?q=${name}&type=municipality&autocomplete=1&limit=10`)
+                    .then(({ data }) => {
+                        this.results = [];
+                        data.features.forEach((item) => this.results.push(item))
+                    })
+                    .catch((error) => {
+                        this.results = [];
+                        throw error;
+                    })
+                    .finally(() => {
+                        this.isFetching = false
                     })
             }
         }
