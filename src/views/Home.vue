@@ -1,133 +1,97 @@
 <template>
     <div class="container">
 
-        <b-tabs v-model="activeTab" position="is-centered" size="is-medium" expanded>
-            <b-tab-item label="Prayer times">
-                <span class="box">
-                    <nav class="level is-mobile">
-                        <div class="level-item has-text-centered">
-                            <span class="has-text-weight-bold">Location : </span>
-                            <span v-if="location">{{ location.properties.label }}</span>
-                        </div>
-                        <div class="level-item has-text-centered">
-                            <span class="has-text-weight-bold">Method : </span>
-                            <span>{{ calculationMethod }} / {{ juristicMethod }}</span>
-                        </div>
-                    </nav>
-                </span>
-            </b-tab-item>
+        <span class="box">
 
-            <b-tab-item label="Configuration">
-                <span class="box">
-
-                    <div class="field is-horizontal">
-                        <div class="field-label is-normal">
-                            <label class="label">Location</label>
-                        </div>
-                        <div class="field-body">
-                            <div class="field">
-                                <p class="control is-expanded">
-                                    <b-autocomplete
-                                            :data="results"
-                                            placeholder="e.g. Paris"
-                                            field="properties.label"
-                                            :loading="isFetching"
-                                            @typing="getAsyncData"
-                                            @select="option => location = option"
-                                            ref="location-autocomplete">
-                                        <template slot-scope="props">
-                                            <div class="media">
-                                                <div class="media-content">
-                                                    {{ props.option.properties.name }} ({{ props.option.properties.postcode }})
-                                                </div>
-                                            </div>
-                                        </template>
-                                    </b-autocomplete>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="field is-horizontal">
-                        <div class="field-label is-normal">
-                            <label class="label">Latitude / Longitude</label>
-                        </div>
-                        <div class="field-body">
-                            <div class="field">
-                                <p class="control is-expanded">
-                                    <input v-model="latitude" placeholder="Latitude" class="input">
-                                </p>
-                            </div>
-                            <div class="field">
-                                <p class="control is-expanded">
-                                    <input v-model="longitude" placeholder="Longitude" class="input">
-                                </p>
-                            </div>
-                            <div class="field is-narrow">
-                                <p class="control is-normal has-text-centered-mobile">
-                                    <button v-on:click="getPosition" class="button is-info">Get position</button>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="field is-horizontal">
-                        <div class="field-label is-normal">
-                            <label class="label">Calculation method</label>
-                        </div>
-                        <div class="field-body">
-                            <div class="field is-normal">
-                                <div class="control">
-                                    <div class="select is-fullwidth">
-                                        <select v-model="calculationMethod">
-                                            <option v-for="option in availableCalculationMethods"
-                                                    :key="option.value" :value="option.value">
-                                                {{ option.text }}
-                                            </option>
-                                        </select>
+            <div class="field is-horizontal">
+                <div class="field-label is-normal">
+                    <label class="label">Location</label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <p class="control is-expanded">
+                            <b-autocomplete
+                                    :data="results"
+                                    placeholder="e.g. Paris"
+                                    field="properties.label"
+                                    :loading="isFetching"
+                                    @typing="getAsyncData"
+                                    @select="option => location = option"
+                                    ref="location-autocomplete">
+                                <template slot-scope="props">
+                                    <div class="media">
+                                        <div class="media-content">
+                                            {{ props.option.properties.name }} ({{ props.option.properties.postcode }})
+                                        </div>
                                     </div>
-                                </div>
+                                </template>
+                            </b-autocomplete>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="field is-horizontal">
+                <div class="field-label is-normal">
+                    <label class="label">Latitude / Longitude</label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <p class="control is-expanded">
+                            <input v-model="latitude" placeholder="Latitude" class="input">
+                        </p>
+                    </div>
+                    <div class="field">
+                        <p class="control is-expanded">
+                            <input v-model="longitude" placeholder="Longitude" class="input">
+                        </p>
+                    </div>
+                    <div class="field is-narrow">
+                        <p class="control is-normal has-text-centered-mobile">
+                            <button v-on:click="getPosition" class="button is-info">Get position</button>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="field is-horizontal">
+                <div class="field-label is-normal">
+                    <label class="label">Calculation method</label>
+                </div>
+                <div class="field-body">
+                    <div class="field is-normal">
+                        <div class="control">
+                            <div class="select is-fullwidth">
+                                <select v-model="calculationMethod">
+                                    <option v-for="option in availableCalculationMethods"
+                                            :key="option.value" :value="option.value">
+                                        {{ option.text }}
+                                    </option>
+                                </select>
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
 
-                    <div class="field is-horizontal">
-                        <div class="field-label is-normal">
-                            <label class="label">Juristic method</label>
-                        </div>
-                        <div class="field-body">
-                            <div class="field is-normal">
-                                <div class="control">
-                                    <div class="select is-fullwidth">
-                                        <select v-model="juristicMethod">
-                                            <option value="Shafi">Shafi/Hanbali/Maliki</option>
-                                            <option value="Hanafi">Hanafi</option>
-                                        </select>
-                                    </div>
-                                </div>
+            <div class="field is-horizontal">
+                <div class="field-label is-normal">
+                    <label class="label">Juristic method</label>
+                </div>
+                <div class="field-body">
+                    <div class="field is-normal">
+                        <div class="control">
+                            <div class="select is-fullwidth">
+                                <select v-model="juristicMethod">
+                                    <option value="Shafi">Shafi/Hanbali/Maliki</option>
+                                    <option value="Hanafi">Hanafi</option>
+                                </select>
                             </div>
                         </div>
                     </div>
-                </span>
-            </b-tab-item>
-
-            <b-tab-item label="Adhan">
-               <span class="box">
-                   <div class="select">
-                        <select v-model="selectedAudio">
-                            <option v-for="option in availableAudios"
-                                    :key="option.path" :value="option">
-                                {{ option.name }}
-                            </option>
-                        </select>
-                    </div>
-                   <br/><br/>
-                   <div>
-                       <audio-player :file="selectedAudio.path"></audio-player>
-                   </div>
-               </span>
-            </b-tab-item>
-        </b-tabs>
+                </div>
+            </div>
+        </span>
 
         <hr/>
 
@@ -173,12 +137,10 @@
     // Service
     import prayerService from "../service/prayer";
     import calculationMethods from "../service/calculationMethods";
-    import audios from "../service/audios";
     import geocoding from "../service/geocoding";
 
     // Vue Components
     import PrayerTimeCard from '@/components/PrayerTimeCard.vue'
-    import AudioPlayer from '@/components/AudioPlayer.vue'
 
     function availableCalculationMethods() {
         const methods = calculationMethods.getAvailableMethods();
@@ -201,17 +163,13 @@
                 calculationMethod: availableCalculationMethods()[1].value,
                 juristicMethod: "Shafi", // for Shafi/Hanbali/Maliki
 
-                availableAudios: audios.getAvailableAudios(),
-                selectedAudio: audios.getAvailableAudios()[0],
-
                 results: [],
                 isFetching: false,
                 location: null
             }
         },
         components: {
-            PrayerTimeCard,
-            AudioPlayer
+            PrayerTimeCard
         },
         mounted: function () {
             this.getPosition();
