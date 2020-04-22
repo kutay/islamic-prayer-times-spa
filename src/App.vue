@@ -17,6 +17,7 @@
                         <span class="clock">{{ now_hour }}</span>
                     </div>
                 </b-navbar-item>
+                <b-navbar-item tag="div"><adhan-player /></b-navbar-item>
             </template>
         </b-navbar>
 
@@ -27,9 +28,15 @@
 </template>
 
 <script>
+    // Libraries
     const moment = require("moment");
+    // Vue Components
+    import AdhanPlayer from '@/components/AdhanPlayer.vue'
 
     export default {
+        components: {
+            AdhanPlayer
+        },
         computed: {
             now_hour: function () {
                 return moment(this.$store.state.now.now).format("LTS")
