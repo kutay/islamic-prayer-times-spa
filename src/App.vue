@@ -3,12 +3,9 @@
 
         <b-navbar id="nav">
             <template slot="start">
-                <b-navbar-item href="#">
-                    <router-link to="/">Home</router-link>
-                </b-navbar-item>
-                <b-navbar-item href="#">
-                    <router-link to="/about">About</router-link>
-                </b-navbar-item>
+                <b-navbar-item href="#"><router-link to="/">Today</router-link></b-navbar-item>
+                <b-navbar-item href="#"><router-link to="/timetable">Month timetable</router-link></b-navbar-item>
+                <b-navbar-item href="#"><router-link to="/about">About</router-link></b-navbar-item>
             </template>
 
             <template slot="end">
