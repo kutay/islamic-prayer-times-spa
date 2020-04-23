@@ -1,25 +1,28 @@
 const adhan = require("adhan");
 
-const uoifMethod = adhan.CalculationMethod.Other();
-uoifMethod.fajrAngle = 12;
-uoifMethod.ishaAngle = 12;
-
-const diyanetMethod = adhan.CalculationMethod.Other();
-diyanetMethod.fajrAngle = 18;
-diyanetMethod.ishaAngle = 17;
+const uoifMethod = new adhan.CalculationParameters(12, 12, 0, "UOIF");
+const mosqueeParisMethod = new adhan.CalculationParameters(18, 18, 0, "GMP");
+const diyanetMethod = new adhan.CalculationParameters(18, 17, 0, "Diyanet");
 
 const methods = {
-    "MuslimWorldLeague": {
-        name: "Muslim World League",
-        method: adhan.CalculationMethod.MuslimWorldLeague()
+    "GMP": {
+        name: "Grande Mosquée de Paris",
+        details: "18°/18°",
+        method: mosqueeParisMethod
     },
     "UOIF": {
         name: "Les Musulmans de France (ex-UOIF)",
+        details: "12°/12°",
         method: uoifMethod
     },
     "Diyanet": {
         name: "Diyanet İşleri Başkanlığı",
+        details: "18°/17°",
         method: diyanetMethod
+    },
+    "MuslimWorldLeague": {
+        name: "Muslim World League",
+        method: adhan.CalculationMethod.MuslimWorldLeague()
     },
     "UmmAlQura": {
         name: "Umm al-Qura University, Makkah",
