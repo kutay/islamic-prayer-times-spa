@@ -6,20 +6,28 @@ Vue.use(Vuex);
 
 import VuexNow from 'vuex-now'
 import logger from "./libs/logger";
+import audios from "./service/audios";
 
 /* VuexNow(interval) - inverval: time in miliseconds for autoupdating the now variable */
 const now = VuexNow(1000);
 
-export default new Vuex.Store({
-    state: {
+function defaultState() {
+    return {
         location: {
             latitude: 48.845,
             longitude: 2.3752,
             location: null
         },
         calculationMethod: "UOIF",
-        juristicMethod: "Shafi"
-    },
+        juristicMethod: "Shafi",
+
+        adhanAudio: audios.getAvailableAudios()[0]
+    };
+}
+
+
+export default new Vuex.Store({
+    state: defaultState(),
     modules: {},
     mutations: {
         updateLocation(state, payload) {

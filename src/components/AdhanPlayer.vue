@@ -26,7 +26,7 @@
         data: function () {
             return {
                 availableAudios: audios.getAvailableAudios(),
-                selectedAudio: audios.getAvailableAudios()[0]
+                selectedAudio: this.$store.state.adhanAudio
             }
         }
     }
