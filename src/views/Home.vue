@@ -38,6 +38,8 @@
 
         </div>
 
+        <br/>
+        <br/>
     </div>
 </template>
 
@@ -83,6 +85,6 @@
 
 <style>
     DIV#today {
-        background-color: beige;
+        background-color: darkseagreen;
     }
 </style>
