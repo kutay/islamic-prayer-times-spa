@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "adhan": "git://github.com/batoulapps/adhan-js.git#a7d7e0c97b737d57c026dc9bf9fe32150b2ca14e",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "buefy": "^0.8.15",
     "core-js": "^3.6.4",
     "lodash": "^4.17.19",
