@@ -32,7 +32,7 @@ function getPrayerToday(latitude, longitude, calculationMethod, juristicMethod) 
     return prayerTimes;
 }
 
-function getTimesMonth(month, latitude, longitude, calculationMethod, juristicMethod) {
+function getTimesMonth(latitude, longitude, calculationMethod, juristicMethod) {
 
     const timetable = [];
 

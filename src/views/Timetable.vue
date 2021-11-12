@@ -69,7 +69,7 @@
                 const prefs = this.$store.getters.preferences;
                 console.log(prefs);
 
-                return prayerService.getTimesMonth(1,
+                return prayerService.getTimesMonth( 
                     prefs.latitude,
                     prefs.longitude,
                     calculationMethods.getMethod(prefs.calculationMethod),
