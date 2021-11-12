@@ -1,8 +1,8 @@
 const adhan = require("adhan");
 
-const uoifMethod = new adhan.CalculationParameters(12, 12, 0, "UOIF");
-const mosqueeParisMethod = new adhan.CalculationParameters(18, 18, 0, "GMP");
-const diyanetMethod = new adhan.CalculationParameters(18, 17, 0, "Diyanet");
+const uoifMethod = new adhan.CalculationParameters("UOIF", 12, 12, 0);
+const mosqueeParisMethod = new adhan.CalculationParameters("GMP", 18, 18, 0);
+const diyanetMethod = new adhan.CalculationParameters("Diyanet", 18, 17, 0);
 
 const methods = {
     "GMP": {
