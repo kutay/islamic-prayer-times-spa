@@ -12,6 +12,10 @@ function sync() {
     localStorage.setItem(CACHE_DATA_KEY, JSON.stringify(cacheData))
 }
 
+function getAll() {
+    return localStorage.getItem(CACHE_DATA_KEY);
+}
+
 function exists(key) {
     return !!cacheData[key];
 }
@@ -26,6 +30,7 @@ function save(key, value) {
 }
 
 export default {
+    getAll,
     exists,
     retrieve,
     save
