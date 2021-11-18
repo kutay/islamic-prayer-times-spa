@@ -1,9 +1,30 @@
 <template>
     <div class="container">
 
-        <span class="box">
-            <configuration-panel ref="conf-panel"/>
-        </span>
+        <b-collapse
+                        class="card"
+                        animation="slide"
+                        aria-id="contentIdForA11y3">
+            <template #trigger="props">
+                <div
+                        class="card-header"
+                        role="button"
+                        aria-controls="contentIdForA11y3">
+                    <p class="card-header-title">
+                        Configuration (click to expand)
+                    </p>
+                    <a class="card-header-icon">
+                        <b-icon :icon="props.open ? 'menu-down' : 'menu-up'"></b-icon>
+                    </a>
+                </div>
+            </template>
+
+            <div class="card-content">
+                <div class="content">
+                    <configuration-panel ref="conf-panel"/>
+                </div>
+            </div>
+        </b-collapse>
 
         <hr/>
 
